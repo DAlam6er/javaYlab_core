@@ -2,7 +2,6 @@ package com.ylab.hometasks.task03;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 /*
 Task3
@@ -30,19 +29,51 @@ public class FuzzySearch
         formattedTestPrint(map);
     }
 
+    // ВАРИАНТ 1
+    /*
     public static boolean fuzzySearch(String occurrence, String original)
     {
         if (occurrence == null || original == null) return false;
+        if ((occurrence.length() == 0) ^ (original.length() == 0)) {
+            return false;
+        }
 
-        String regex = occurrence.codePoints()
-            .flatMap(s ->
-                (String.format(".*%s.*", new String(Character.toChars(s))))
-                    .codePoints())
-            .collect(StringBuilder::new,
-                StringBuilder::appendCodePoint,
-                StringBuilder::append)
-            .toString();
-        return Pattern.matches(regex, original);
+        int j;
+        int k = -1;
+        boolean occurFound;
+        for (int i = 0; i < occurrence.length(); i++) {
+            occurFound = false;
+            for (j = k + 1; j < original.length(); j++) {
+                if (occurrence.codePointAt(i) == original.codePointAt(j)) {
+                    k = j;
+                    occurFound = true;
+                    break;
+                }
+            }
+            if (!occurFound) return false;
+        }
+        return true;
+    }
+     */
+
+    // ВАРИАНТ 2
+    public static boolean fuzzySearch(String occurrence, String original)
+    {
+        if (occurrence == null || original == null) return false;
+        if ((occurrence.length() == 0) ^ (original.length() == 0)) {
+            return false;
+        }
+
+        int i = 0;
+        int j = 0;
+        while ((i < occurrence.length()) && (j < original.length())) {
+            if (occurrence.codePointAt(i) == original.codePointAt(j)) {
+                i++;
+            }
+            j++;
+        }
+
+        return (i == occurrence.length());
     }
 
     public static void formattedTestPrint(Map<String, String> map)
