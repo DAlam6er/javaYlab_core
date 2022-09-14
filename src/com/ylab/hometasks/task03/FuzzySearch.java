@@ -59,7 +59,7 @@ public class FuzzySearch
     // ВАРИАНТ 2
     public static boolean fuzzySearch(String occurrence, String original)
     {
-        if (occurrence == null || original == null) return false;
+        if (occurrence == null || original == null) {return false;}
         if ((occurrence.length() == 0) ^ (original.length() == 0)) {
             return false;
         }
@@ -78,7 +78,7 @@ public class FuzzySearch
 
     public static void formattedTestPrint(Map<String, String> map)
     {
-        if (map == null) return;
+        if (map == null) {return;}
 
         int maxLenKey = map.keySet().stream()
             .filter(Objects::nonNull).map(String::length)
